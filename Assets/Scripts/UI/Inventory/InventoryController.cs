@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [HideInInspector] private ItemGrid selectedItemGrid;
+    private ItemGrid selectedItemGrid;
+    private EquipmentItemSlot selectedItemSlot;
 
     Vector2Int positionOnGrid;
     InventoryItem selectedItem;
@@ -17,8 +18,18 @@ public class InventoryController : MonoBehaviour
     [SerializeField] Transform targetCanvas;
 
     [SerializeField] InventoryHighlight inventoryHighlight;
+    [SerializeField] RectTransform selectedItemParent;
 
     InventoryItem itemToHighlight;
+
+    public EquipmentItemSlot SelectedItemSlot
+    {
+        get => selectedItemSlot;
+        set
+        {
+            selectedItemSlot = value;
+        }
+    }
 
     public ItemGrid SelectedItemGrid
     {
@@ -34,9 +45,9 @@ public class InventoryController : MonoBehaviour
     {
         ProcessMouseInput();
 
-        if (selectedItemGrid == null) { return; }
-
         HandleHighlight();
+
+        if (selectedItemGrid == null) { return; }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -71,6 +82,18 @@ public class InventoryController : MonoBehaviour
     Vector2Int oldPosition;
     private void HandleHighlight()
     {
+        if(selectedItemSlot != null)
+        {
+            inventoryHighlight.Show(false);
+            return;
+        }
+
+        if (selectedItemGrid == null) 
+        {
+            inventoryHighlight.Show(false);
+            return; 
+        }
+
         Vector2Int positionOnGrid = GetTileGridPosition();
         if(positionOnGrid == oldPosition) { return; }
 
@@ -132,6 +155,7 @@ public class InventoryController : MonoBehaviour
     {
         selectedItem = inventoryItem;
         selectedItemRectTransform = inventoryItem.GetComponent<RectTransform>();
+        selectedItemRectTransform.SetParent(selectedItemParent);
     }
 
     private void ProcessMouseInput()
@@ -141,23 +165,66 @@ public class InventoryController : MonoBehaviour
             selectedItemRectTransform.position = Input.mousePosition;
         }
 
-        if (selectedItemGrid == null) { return; }
+        if (selectedItemGrid == null && selectedItemSlot == null) { return; }
 
         if (Input.GetMouseButtonDown(0))
         {
-            positionOnGrid = GetTileGridPosition();
-            if (selectedItem == null)
+            if (selectedItemGrid != null)
             {
-                selectedItem = selectedItemGrid.PickUpItem(positionOnGrid);
-                if (selectedItem != null)
-                {
-                    selectedItemRectTransform = selectedItem.GetComponent<RectTransform>();
-                }
+                ItemGridInput();
             }
-            else
+
+            if(selectedItemSlot != null)
             {
-                PlaceItemInput();
+                ItemSlotInput();
             }
+        }
+    }
+
+    private void ItemSlotInput()
+    {
+        if(selectedItem != null)
+        {
+            PlaceItemIntoSlot();
+        }
+    }
+
+    private void PlaceItemIntoSlot()
+    {
+        if (selectedItemSlot.Check(selectedItem) == false) { return; }
+
+        InventoryItem replacedItem = selectedItemSlot.ReplaceItem(selectedItem);
+
+        if (replacedItem == null)
+        {
+            NullSelectedItem();
+        }
+        else
+        {
+            SelectItem(replacedItem);
+        }       
+    }
+
+    private void NullSelectedItem()
+    {
+        selectedItem = null;
+        selectedItemRectTransform = null;
+    }
+
+    private void ItemGridInput()
+    {
+        positionOnGrid = GetTileGridPosition();
+        if (selectedItem == null)
+        {
+            InventoryItem itemToSelect = selectedItemGrid.PickUpItem(positionOnGrid);
+            if (itemToSelect != null)
+            {
+                SelectItem(itemToSelect);
+            }
+        }
+        else
+        {
+            PlaceItemInput();
         }
     }
 
@@ -195,8 +262,7 @@ public class InventoryController : MonoBehaviour
         }
 
         selectedItemGrid.PlaceItem(selectedItem, positionOnGrid.x, positionOnGrid.y);
-        selectedItem = null;
-        selectedItemRectTransform = null;
+        NullSelectedItem();
 
         if (overlapItem != null)
         {
