@@ -22,22 +22,13 @@ public class ItemGrid : MonoBehaviour
 
     [SerializeField] GameObject inventoryItemPrefab;
 
-    private void Awake()
+    public void Init()
     {
         rectTransform = GetComponent<RectTransform>();
-    }
-
-    private void Start()
-    {
-        Init(gridSizeWidth, gridSizeHeight);
-    }
-
-    private void Init(int width, int height)
-    {
-        inventoryItemGrid = new InventoryItem[width, height];
+        inventoryItemGrid = new InventoryItem[gridSizeWidth, gridSizeHeight];
         Vector2 size = new Vector2();
-        size.x = TileSizeWidth * width;
-        size.y = TileSizeHeight * height;
+        size.x = TileSizeWidth * gridSizeWidth;
+        size.y = TileSizeHeight * gridSizeHeight;
         rectTransform.sizeDelta = size;
     }
 
@@ -60,7 +51,48 @@ public class ItemGrid : MonoBehaviour
         itemRectTransform.localPosition = CalculatePositionOfObjectOnGrid(itemToPlace, x, y);
     }
 
-    private static Vector2 CalculatePositionOfObjectOnGrid(InventoryItem item, int x, int y)
+    //This lets the objects be added to inventory automatically. I think it could use some optimization.
+    public Vector2Int? FindSpaceForObject(ItemData itemData)
+    {
+        int height = gridSizeHeight - itemData.sizeHeight + 1;
+        int width = gridSizeWidth - itemData.sizeWidth + 1;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if(CheckAvailableSpace(x, y, itemData.sizeWidth, itemData.sizeHeight) == true)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private bool CheckAvailableSpace(int posX, int posY, int sizeWidth, int sizeHeight)
+    {
+        for (int x = 0; x < sizeWidth; x++)
+        {
+            for (int y = 0; y < sizeHeight; y++)
+            {
+                if (inventoryItemGrid[posX + x, posY + y] != null)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public InventoryItem GetItem(int x, int y)
+    {
+        return inventoryItemGrid[x, y];
+    }
+
+    public Vector2 CalculatePositionOfObjectOnGrid(InventoryItem item, int x, int y)
     {
         Vector2 positionOnGrid = new Vector2();
         positionOnGrid.x = TileSizeWidth * x + TileSizeWidth * item.itemData.sizeWidth / 2;
@@ -128,7 +160,7 @@ public class ItemGrid : MonoBehaviour
         }
     }
 
-    bool PositionCheck(int x, int y)
+    public  bool PositionCheck(int x, int y)
     {
         if (x < 0 || y < 0)
         {
