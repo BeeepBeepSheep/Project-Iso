@@ -8,12 +8,15 @@ public class InventoryItem : MonoBehaviour
 {
     public ItemData itemData;
 
+    public int positionOnGridX;
+    public int positionOnGridY;
+
     internal void Set(ItemData itemData)
     {
         this.itemData = itemData;
         GetComponent<Image>().sprite = itemData.icon;
         Vector2 size = new Vector2(
-            itemData.sizeWidth * ItemGrid.TileSizeWidth, 
+            itemData.sizeWidth * ItemGrid.TileSizeWidth,
             itemData.sizeHeight * ItemGrid.TileSizeHeight);
         GetComponent<RectTransform>().sizeDelta = size;
     }

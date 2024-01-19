@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -45,8 +46,17 @@ public class ItemGrid : MonoBehaviour
         RectTransform itemRectTransform = itemToPlace.GetComponent<RectTransform>();
         itemRectTransform.SetParent(transform);
 
-        inventoryItemGrid[x, y] = itemToPlace;
-        
+        for (int ix = 0; ix < itemToPlace.itemData.sizeWidth; ix++)
+        {
+            for (int iy = 0; iy < itemToPlace.itemData.sizeHeight; iy++)
+            {
+                inventoryItemGrid[x + ix, y + iy] = itemToPlace;
+            }
+        }
+
+        itemToPlace.positionOnGridX = x;
+        itemToPlace.positionOnGridY = y;
+
         itemRectTransform.localPosition = CalculatePositionOfObjectOnGrid(itemToPlace, x, y);
     }
 
@@ -69,10 +79,79 @@ public class ItemGrid : MonoBehaviour
         return tileGridPosition;
     }
 
+    public bool CheckOverlap(int posX, int posY, int sizeWidth, int sizeHeight, ref InventoryItem overlapItem)
+    {
+        for (int x = 0; x < sizeWidth; x++)
+        {
+            for (int y = 0; y < sizeHeight; y++)
+            {
+                if (inventoryItemGrid[posX + x, posY + y] != null)
+                {
+                    if (overlapItem == null)
+                    {
+                        overlapItem = inventoryItemGrid[posX + x, posY + y];
+                    }
+                    else
+                    {
+                        if (overlapItem != inventoryItemGrid[posX + x, posY + y])
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     public InventoryItem PickUpItem(Vector2Int tilePositionOnGrid)
     {
+
         InventoryItem pickedItem = inventoryItemGrid[tilePositionOnGrid.x, tilePositionOnGrid.y];
-        inventoryItemGrid[tilePositionOnGrid.x, tilePositionOnGrid.y] = null;
+
+        if (pickedItem == null) { return null; }
+
+        ClearGridFromItem(pickedItem);
+
         return pickedItem;
+    }
+
+    public void ClearGridFromItem(InventoryItem pickedItem)
+    {
+        for (int ix = 0; ix < pickedItem.itemData.sizeWidth; ix++)
+        {
+            for (int iy = 0; iy < pickedItem.itemData.sizeHeight; iy++)
+            {
+                inventoryItemGrid[pickedItem.positionOnGridX + ix, pickedItem.positionOnGridY + iy] = null;
+            }
+        }
+    }
+
+    bool PositionCheck(int x, int y)
+    {
+        if (x < 0 || y < 0)
+        {
+            return false;
+        }
+
+        if (x >= gridSizeWidth || y >= gridSizeHeight)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool BoundryCheck(int posX, int posY, int width, int height)
+    {
+        if (PositionCheck(posX, posY) == false) { return false; }
+
+        posX += width - 1;
+        posY += height - 1;
+
+        if (PositionCheck(posX, posY) == false) { return false; }
+
+        return true;
     }
 }
