@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class PickUpInteractableObject : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<InteractableObject>().interact += PickUp;
+        GetComponent<InteractableObject>().Subscribe(PickUp);
     }
 
     public void PickUp(Inventory inventory)
@@ -23,5 +24,10 @@ public class PickUpInteractableObject : MonoBehaviour
 
         Debug.Log("You are trying to pick me up!");
         Destroy(gameObject);
+    }
+
+    internal void SetItem(ItemData itemToSpawn)
+    {
+        itemData = itemToSpawn;
     }
 }

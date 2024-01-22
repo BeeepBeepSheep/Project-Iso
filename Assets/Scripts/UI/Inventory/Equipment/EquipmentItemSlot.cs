@@ -11,9 +11,16 @@ public class EquipmentItemSlot : MonoBehaviour
 
     RectTransform slotRectTransform;
 
+    Inventory inventory;
+
     private void Awake()
     {
         slotRectTransform = GetComponent<RectTransform>();
+    }
+
+    public void Init(Inventory inventory)
+    {
+        this.inventory = inventory;
     }
 
     public bool Check(InventoryItem itemToPlace)
@@ -24,6 +31,10 @@ public class EquipmentItemSlot : MonoBehaviour
     public InventoryItem ReplaceItem(InventoryItem itemToPlace)
     {
         InventoryItem replaceItem = itemInSlot;
+        if (replaceItem != null)
+        {
+            inventory.SubtractStats(replaceItem.itemData.stats);
+        }
 
         PlaceItem(itemToPlace);
 
@@ -33,6 +44,8 @@ public class EquipmentItemSlot : MonoBehaviour
     public void PlaceItem(InventoryItem itemToPlace)
     {
         itemInSlot = itemToPlace;
+        inventory.AddStats(itemInSlot.itemData.stats);
+
         RectTransform rt = itemToPlace.GetComponent<RectTransform>();
         rt.SetParent(slotRectTransform);
         rt.position = slotRectTransform.position;

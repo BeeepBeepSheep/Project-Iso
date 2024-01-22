@@ -11,7 +11,8 @@ public enum Statistic
     Damage,
     Armor,
     AttackSpeed,
-    MoveSpeed
+    MoveSpeed,
+    HealthRegeneration
 }
 
 // Serializable class representing a statistic with a value
@@ -49,7 +50,6 @@ public class StatsGroup
     public StatsGroup()
     {
         stats = new List<StatsValue>();
-        Init();
     }
 
     // Method to initialize default stats
@@ -60,12 +60,41 @@ public class StatsGroup
         stats.Add(new StatsValue(Statistic.Armor, 5));
         stats.Add(new StatsValue(Statistic.AttackSpeed, 1f));
         stats.Add(new StatsValue(Statistic.MoveSpeed, 1F));
+        stats.Add(new StatsValue(Statistic.HealthRegeneration, 1f));
     }
 
     // Method to get a specific StatsValue by statistic type
     internal StatsValue Get(Statistic statisticToGet)
     {
         return stats[(int)statisticToGet];
+    }
+
+    public void Sum(StatsValue toAdd)
+    {
+        StatsValue statsValue = stats[(int)toAdd.statisticType];
+
+        if (toAdd.typeFloat == true)
+        {
+            statsValue.float_value += toAdd.float_value;
+        }
+        else
+        {
+            statsValue.integer_value += toAdd.integer_value;
+        }
+    }
+
+    public void Subtract(StatsValue toSubtract)
+    {
+        StatsValue statsValue = stats[(int)toSubtract.statisticType];
+
+        if (toSubtract.typeFloat == true)
+        {
+            statsValue.float_value -= toSubtract.float_value;
+        }
+        else
+        {
+            statsValue.integer_value -= toSubtract.integer_value;
+        }
     }
 }
 
@@ -131,6 +160,15 @@ public class ValuePool
     {
         currentValue = maxValue.integer_value;
     }
+
+    public void Restore(int v)
+    {
+        currentValue += v;
+        if(currentValue > maxValue.integer_value)
+        {
+            currentValue = maxValue.integer_value;
+        }
+    }
 }
 
 // Main class representing a character
@@ -152,6 +190,27 @@ public class Character : MonoBehaviour
 
         // Initializing the character's life pool with its maximum value
         lifePool = new ValuePool(stats.Get(Statistic.Life));
+    }
+
+    private void Update()
+    {
+        LifeRegeneration();
+    }
+
+    float lifeRegen;
+    private void LifeRegeneration()
+    {
+        lifeRegen += Time.deltaTime * stats.Get(Statistic.HealthRegeneration).float_value;
+        if (lifeRegen > 1f)
+        {
+            Heal(1);
+            lifeRegen -= 1f;
+        }
+    }
+
+    private void Heal(int v)
+    {
+        lifePool.Restore(v);
     }
 
     // Method for the character to take damage
@@ -200,5 +259,31 @@ public class Character : MonoBehaviour
     public StatsValue TakeStats(Statistic statisticToGet)
     {
         return stats.Get(statisticToGet);
+    }
+
+    public void AddStats(List<StatsValue> statsValues)
+    {
+        for(int i = 0; i < statsValues.Count; i++)
+        {
+            StatsAdd(statsValues[i]);
+        }
+    }
+
+    private void StatsAdd(StatsValue statsValue)
+    {
+        stats.Sum(statsValue);
+    }
+
+    public void SubtractStats(List<StatsValue> statsValues)
+    {
+        for(int i = 0; i < statsValues.Count; i++)
+        {
+            StatsSubtract(statsValues[i]);
+        }
+    }
+
+    private void StatsSubtract(StatsValue statsValue)
+    {
+        stats.Subtract(statsValue);
     }
 }

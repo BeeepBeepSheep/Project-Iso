@@ -13,6 +13,11 @@ public class InteractableObject : MonoBehaviour
         objectName = gameObject.name;
     }
 
+    public void Subscribe(Action<Inventory> action)
+    {
+        interact += action;
+    }
+
     // Public method called to interact with this object
     public void Interact(Inventory inventory)
     {

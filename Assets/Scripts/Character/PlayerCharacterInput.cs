@@ -23,7 +23,7 @@ public class PlayerCharacterInput : MonoBehaviour
     {
         if(EventSystem.current.IsPointerOverGameObject()) { return; }
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0))
         {
             if (attackInput.AttackCheck())
             {

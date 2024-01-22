@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b4f0e05d8e42e43abf74dc252bf162, type: 3}
+  m_Name: TestItemDrops
+  m_EditorClassIdentifier: 
+  drops:
+  - item: {fileID: 11400000, guid: fc5c2f776c2153b47a06d42bf148401f, type: 2}
+    weight: 20
+  - item: {fileID: 11400000, guid: fbda98f9f98bc9649a47d32fbfbe35bc, type: 2}
+    weight: 36
+  - item: {fileID: 11400000, guid: c3d384609f61e4f458b7fec17c9b2920, type: 2}
+    weight: 20
+  - item: {fileID: 11400000, guid: 49884fd92ed96864ea5c72b92784bd46, type: 2}
+    weight: 24
+  - item: {fileID: 11400000, guid: 0cd4a88780adaa24a8e665df6281533f, type: 2}
+    weight: 30
+  totalWeight: 96
