@@ -9,10 +9,10 @@ public class DropSystemTest : MonoBehaviour
     private void Update()
     {
         if (dropList == null) { return; }
-
+        /*
         if (Input.GetKey(KeyCode.Z))
         {
             Debug.Log(dropList.GetDropName());
-        }
+        }*/
     }
 }

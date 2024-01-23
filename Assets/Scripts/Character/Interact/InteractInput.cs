@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractInput : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class InteractInput : MonoBehaviour
 
     InteractHandler interactHandler;
 
+    Vector2 mousePosition;
+
     private void Awake()
     {
         interactHandler = GetComponent<InteractHandler>();
@@ -24,15 +27,18 @@ public class InteractInput : MonoBehaviour
 
     void Update()
     {
-        CheckInteractObject(); // Checks for interactable objects under the mouse pointer
+       CheckInteractObject(); // Checks for interactable objects under the mouse pointer      
+    }
 
-        
+    public void MousePositionInput(InputAction.CallbackContext callbackContext)
+    {
+        mousePosition = callbackContext.ReadValue<Vector2>();
     }
 
     private void CheckInteractObject()
     {
         // Casts a ray from the main camera to the mouse position on the screen
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))

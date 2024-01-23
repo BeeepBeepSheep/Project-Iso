@@ -8,6 +8,7 @@ using UnityEngine;
 public enum Statistic
 {
     Life,
+    Energy,
     Damage,
     Armor,
     AttackSpeed,
@@ -56,6 +57,7 @@ public class StatsGroup
     public void Init()
     {
         stats.Add(new StatsValue(Statistic.Life, 100));
+        stats.Add(new StatsValue(Statistic.Energy, 100));
         stats.Add(new StatsValue(Statistic.Damage, 25));
         stats.Add(new StatsValue(Statistic.Armor, 5));
         stats.Add(new StatsValue(Statistic.AttackSpeed, 1f));
@@ -177,6 +179,7 @@ public class Character : MonoBehaviour
     [SerializeField] AttributeGroup attributes; // Collection of attributes for the character
     [SerializeField] StatsGroup stats; // Collection of statistics for the character
     public ValuePool lifePool; // Health value pool for the character
+    public ValuePool energyPool;
     public bool isDead;
 
     private void Start()
@@ -188,8 +191,9 @@ public class Character : MonoBehaviour
         stats = new StatsGroup();
         stats.Init();
 
-        // Initializing the character's life pool with its maximum value
+        // Initializing the character's life and Energy pool with its maximum value
         lifePool = new ValuePool(stats.Get(Statistic.Life));
+        energyPool = new ValuePool(stats.Get(Statistic.Energy));
     }
 
     private void Update()

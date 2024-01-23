@@ -12,10 +12,12 @@ public class CharacterUI : MonoBehaviour
     }
 
     [SerializeField] UIPoolBar hpBar;
+    [SerializeField] UIPoolBar energyBar;
 
     private void Update()
     {
         hpBar.Show(character.lifePool);
+        energyBar.Show(character.energyPool);
     }
 
 }

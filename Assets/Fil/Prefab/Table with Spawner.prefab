@@ -45,15 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawn:
-  - objectToSpawn: {fileID: 5897052691706109232, guid: cbd76f02e35411647a7745959953030f,
+  - objectToSpawn: {fileID: 4690161085172082187, guid: f3094b8c25f2d2a478a94813e9c63189,
       type: 3}
-    spawnChance: 80
-  - objectToSpawn: {fileID: 6567448456728074991, guid: 6cc598c7a4d63524389445ded8e60daa,
-      type: 3}
-    spawnChance: 80
-  - objectToSpawn: {fileID: 9173091561947789047, guid: 27cf8a23a567345488f16f8b01738558,
-      type: 3}
-    spawnChance: 80
+    spawnChance: 100
 --- !u!1 &1910111493920226946
 GameObject:
   m_ObjectHideFlags: 0
