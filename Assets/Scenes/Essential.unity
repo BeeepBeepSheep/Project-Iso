@@ -346,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.299407, y: -0.5514133, z: 0.22113444, w: 0.7465912}
-  m_LocalPosition: {x: 9.314281, y: 11.3, z: -15.020332}
+  m_LocalPosition: {x: -57.199997, y: 6.632, z: 55.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -602,7 +602,7 @@ Transform:
   m_GameObject: {fileID: 348114788}
   serializedVersion: 2
   m_LocalRotation: {x: 0.299407, y: -0.5514133, z: 0.22113444, w: 0.7465912}
-  m_LocalPosition: {x: 9.314281, y: 11.3, z: -15.020332}
+  m_LocalPosition: {x: -57.199997, y: 6.632, z: 55.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -621,8 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859f7cf51ca461f4fb826bea08c4f309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textOnScreen: {fileID: 0}
-  hpBar: {fileID: 0}
+  textOnScreen: {fileID: 194497823}
+  hpBar: {fileID: 1138786282}
   hoveringOverObject: {fileID: 0}
   hoveringOverCharacter: {fileID: 0}
 --- !u!114 &348114792
@@ -3806,17 +3806,17 @@ PrefabInstance:
     - target: {fileID: 9108957217700652280, guid: 3ad6c1d475d48c84295085dcef16f6e1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.6857185
+      value: -70.2
       objectReference: {fileID: 0}
     - target: {fileID: 9108957217700652280, guid: 3ad6c1d475d48c84295085dcef16f6e1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.6999998
+      value: -6.368
       objectReference: {fileID: 0}
     - target: {fileID: 9108957217700652280, guid: 3ad6c1d475d48c84295085dcef16f6e1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.020332
+      value: 59.7
       objectReference: {fileID: 0}
     - target: {fileID: 9108957217700652280, guid: 3ad6c1d475d48c84295085dcef16f6e1,
         type: 3}
