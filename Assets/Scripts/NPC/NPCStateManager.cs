@@ -49,6 +49,7 @@ public class NPCStateManager : MonoBehaviour
 
     void Update()
     {
+        aIEnemy.target = currantTargetDestination.p;
         current_State.UpdateState(this);
     }
     public void SetState(NPCBaseState state)//takes in a provided state (script of type "NPCBaseState")
