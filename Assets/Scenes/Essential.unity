@@ -2151,8 +2151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859f7cf51ca461f4fb826bea08c4f309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textOnScreen: {fileID: 0}
-  hpBar: {fileID: 0}
+  textOnScreen: {fileID: 194497823}
+  hpBar: {fileID: 1138786282}
   hoveringOverObject: {fileID: 0}
   hoveringOverCharacter: {fileID: 0}
 --- !u!114 &348114792
