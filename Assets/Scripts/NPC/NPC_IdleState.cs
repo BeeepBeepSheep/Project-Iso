@@ -12,13 +12,14 @@ public class NPC_IdleState : NPCBaseState
 
         stateManager.currantTargetDestination = null;//set destination to null in state manager
 
-        stateManager.navAgent.SetDestination(stateManager.transform.position);
+        thisNPC = stateManager.transform;
+        navAgent = stateManager.navAgent;
+
+        stateManager.navAgent.SetDestination(thisNPC.transform.position);
 
         stateManager.StartIdleDuration();
 
         //set variables
-        thisNPC = stateManager.transform;
-        navAgent = stateManager.navAgent;
     }
 
     public override void UpdateState(NPCStateManager npcContext)

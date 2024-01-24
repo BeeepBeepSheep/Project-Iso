@@ -28,21 +28,28 @@ public class PlayerCharacterInput : MonoBehaviour
 
     public void LMB_InputHandle(InputAction.CallbackContext callbackContext)
     {
-        if (isOverUIElement == true) { return; }
-
-        if (attackInput.AttackCheck())
+        if (callbackContext.started)
         {
-            attackInput.Attack();
-            return;
-        }
 
-        if (interactInput.InteractCheck())
-        {
-            interactInput.Interact();
-            return;
-        }
+            if (isOverUIElement == true) { return; }
 
-        interactInput.ResetState();
-        characterMovementInput.MoveInput();
+            if (callbackContext.performed)
+            {
+                if (attackInput.AttackCheck())
+                {
+                    attackInput.Attack();
+                    return;
+                }
+            }
+
+            if (interactInput.InteractCheck())
+            {
+                interactInput.Interact();
+                return;
+            }
+
+            interactInput.ResetState();
+            characterMovementInput.MoveInput();
+        }
     }
 }

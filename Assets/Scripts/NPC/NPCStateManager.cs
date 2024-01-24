@@ -7,12 +7,16 @@ public class NPCStateManager : MonoBehaviour
 {
     public string currantStateStr = "tbd";//var for keeping track of currant state in editor
 
+    [Header("Is Enemy")]
+    public bool isEnemy = true;
+
     [Header("State Machine")]
     public bool canChangeState = true;
     public NPCBaseState current_State;
     public NPC_WanderState wander_State;
     public NPC_IdleState idle_State;
 
+    public AIEnemy aIEnemy;
     [Header("Nav agent")]
     public NavMeshAgent navAgent;
     public PointManager pointManager;

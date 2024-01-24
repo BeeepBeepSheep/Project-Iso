@@ -11,7 +11,7 @@ public class AIEnemy : MonoBehaviour
         attackHandler = GetComponent<AttackHandler>();
     }
 
-    [SerializeField] Character target;
+    [SerializeField] public Character target;
     float timer = 4f;
 
     private void Start()
