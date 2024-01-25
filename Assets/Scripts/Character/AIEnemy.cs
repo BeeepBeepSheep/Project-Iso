@@ -18,19 +18,22 @@ public class AIEnemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameManager.instance.playerObject.GetComponent<Character>();
+        target = null;
     }
 
+    public void TargetPlayer()
+    {
+        target = GameManager.instance.playerObject.GetComponent<Character>();
+    }
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer < 0f)
+        if (target != null)
         {
-            timer = 4f;
-
-            // Check if the target is alive before attacking
-            if (target != null && !target.isDead)
+            timer -= Time.deltaTime;
+            if (timer < 0f)
             {
+                timer = 4f;
+
                 attackHandler.Attack(target);
             }
         }

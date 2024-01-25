@@ -19,6 +19,7 @@ public class NPC_WanderState : NPCBaseState
         //set variables
         minDestinationDistance = stateManager.minDestinationDistance;
         thisNPC = stateManager.transform;
+        navAgent = stateManager.navAgent;
 
         currantTargetDestination = stateManager.pointManager.RandomPoint();// gets random deestination
 

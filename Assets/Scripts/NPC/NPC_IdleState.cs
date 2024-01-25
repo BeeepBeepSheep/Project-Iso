@@ -8,6 +8,8 @@ public class NPC_IdleState : NPCBaseState
     public Transform thisNPC;
     public override void EnterState(NPCStateManager npcContext)
     {
+        stateManager = npcContext;
+
         stateManager.currantStateStr = "Idle";
 
         stateManager.currantTargetDestination = null;//set destination to null in state manager
@@ -19,6 +21,7 @@ public class NPC_IdleState : NPCBaseState
 
         stateManager.StartIdleDuration();
 
+        stateManager.currentIdleDuration = stateManager.fullIdleDuration;
         //set variables
     }
 
