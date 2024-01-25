@@ -15,15 +15,20 @@ public class NPCStateManager : MonoBehaviour
     public NPCBaseState current_State;
     public NPC_WanderState wander_State = new NPC_WanderState();
     public NPC_IdleState idle_State = new NPC_IdleState();
+    public NPC_AgroState agro_State = new NPC_AgroState();
 
     public AIEnemy aIEnemy;
+
+    public Transform player;
+
     [Header("Nav agent")]
     public NavMeshAgent navAgent;
     public PointManager pointManager;
     public float navAgentSpeed = 0.8f;
     public float speed;
 
-    public float idleDuration = 3.5f;
+    public float fullIdleDuration = 3.5f;
+    public float currentIdleDuration = 3.5f;
 
     public Transform npcMesh;
 
@@ -43,7 +48,6 @@ public class NPCStateManager : MonoBehaviour
 
    /* void Update()
     {
-        //aIEnemy.target = currantTargetDestination;
         current_State.UpdateState(this);
     }*/
     public void SetState(NPCBaseState state)//takes in a provided state (script of type "NPCBaseState")
@@ -78,7 +82,18 @@ public class NPCStateManager : MonoBehaviour
     }
     private IEnumerator IdleDuration()
     {
-        yield return new WaitForSeconds(idleDuration);
+        yield return new WaitForSeconds(currentIdleDuration);
         SetState(RandomState());
+    }
+    public void TargetPlayer()
+    {
+        aIEnemy.TargetPlayer();
+
+        if(current_State == idle_State)
+        {
+            currentIdleDuration = 0f;
+        }
+
+        SetState(agro_State);
     }
 }

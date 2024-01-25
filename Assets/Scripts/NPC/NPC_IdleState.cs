@@ -21,6 +21,7 @@ public class NPC_IdleState : NPCBaseState
 
         stateManager.StartIdleDuration();
 
+        stateManager.currentIdleDuration = stateManager.fullIdleDuration;
         //set variables
     }
 
