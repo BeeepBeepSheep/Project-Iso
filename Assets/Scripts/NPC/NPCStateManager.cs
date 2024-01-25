@@ -13,8 +13,8 @@ public class NPCStateManager : MonoBehaviour
     [Header("State Machine")]
     public bool canChangeState = true;
     public NPCBaseState current_State;
-    public NPC_WanderState wander_State;
-    public NPC_IdleState idle_State;
+    public NPC_WanderState wander_State = new NPC_WanderState();
+    public NPC_IdleState idle_State = new NPC_IdleState();
 
     public AIEnemy aIEnemy;
     [Header("Nav agent")]
@@ -35,12 +35,6 @@ public class NPCStateManager : MonoBehaviour
     {
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.speed = navAgentSpeed;
-
-        idle_State.stateManager = this;
-        idle_State.navAgent = navAgent;
-
-        wander_State.stateManager = this;
-        wander_State.navAgent = navAgent;
     }
     void Start()
     {
@@ -49,7 +43,7 @@ public class NPCStateManager : MonoBehaviour
 
     void Update()
     {
-        aIEnemy.target = currantTargetDestination.p;
+        //aIEnemy.target = currantTargetDestination;
         current_State.UpdateState(this);
     }
     public void SetState(NPCBaseState state)//takes in a provided state (script of type "NPCBaseState")
