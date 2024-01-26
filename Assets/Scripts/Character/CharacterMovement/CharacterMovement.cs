@@ -1,10 +1,11 @@
+using CharacterCommand;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour, ICommandHandle
 {
     NavMeshAgent agent; // NavMeshAgent component reference for navigation
     Character character;
@@ -51,5 +52,10 @@ public class CharacterMovement : MonoBehaviour
     internal void Stop()
     {
         agent.isStopped = true;
+    }
+
+    public void ProcessCommand(Command command)
+    {
+        SetDestination(command.worldPoint);
     }
 }

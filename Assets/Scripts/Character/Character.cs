@@ -174,7 +174,7 @@ public class ValuePool
 }
 
 // Main class representing a character
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IDamageable
 {
     [SerializeField] AttributeGroup attributes; // Collection of attributes for the character
     [SerializeField] StatsGroup stats; // Collection of statistics for the character
@@ -217,7 +217,6 @@ public class Character : MonoBehaviour
         lifePool.Restore(v);
     }
 
-    // Method for the character to take damage
     public void TakeDamage(int damage)
     {
         // Applying defense calculation
@@ -289,5 +288,11 @@ public class Character : MonoBehaviour
     private void StatsSubtract(StatsValue statsValue)
     {
         stats.Subtract(statsValue);
+    }
+
+    public int GetDamage()
+    {
+        int damage = TakeStats(Statistic.Damage).integer_value;
+        return damage;
     }
 }

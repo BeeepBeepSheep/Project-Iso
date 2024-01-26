@@ -1,3 +1,5 @@
+using CharacterCommand;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerCharacterInput : MonoBehaviour
 {
     [SerializeField] MouseInput mouseInput;
+    CommandHandler commandHandler;
 
     CharacterMovementInput characterMovementInput;
     AttackInput attackInput;
@@ -16,6 +19,8 @@ public class PlayerCharacterInput : MonoBehaviour
 
     private void Awake()
     {
+        commandHandler = GetComponent<CommandHandler>();
+
         characterMovementInput = GetComponent<CharacterMovementInput>();
         attackInput = GetComponent<AttackInput>();
         interactInput = GetComponent<InteractInput>();
@@ -28,28 +33,39 @@ public class PlayerCharacterInput : MonoBehaviour
 
     public void LMB_InputHandle(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
+
+        if (isOverUIElement == true) { return; }
+
+        if (callbackContext.performed || callbackContext.canceled) { return; }
         {
-
-            if (isOverUIElement == true) { return; }
-
-            if (callbackContext.performed)
+            if (attackInput.AttackCheck())
             {
-                if (attackInput.AttackCheck())
-                {
-                    attackInput.Attack();
-                    return;
-                }
-            }
-
-            if (interactInput.InteractCheck())
-            {
-                interactInput.Interact();
+                AttackCommand(interactInput.hoveringOverObject.gameObject);
                 return;
             }
-
-            interactInput.ResetState();
-            characterMovementInput.MoveInput();
         }
+
+        if (interactInput.InteractCheck())
+        {
+            InteractCommand(interactInput.hoveringOverObject.gameObject);
+            return;
+        }
+
+        MoveCommand(mouseInput.rayToWorldIntersectionPoint);
+    }
+
+    private void MoveCommand(Vector3 point)
+    {
+        commandHandler.SetCommand(new Command(CommandType.Move, point));
+    }
+
+    private void InteractCommand(GameObject target)
+    {
+        commandHandler.SetCommand(new Command(CommandType.Interact, target));
+    }
+
+    private void AttackCommand(GameObject target)
+    {
+        commandHandler.SetCommand(new Command(CommandType.Attack, target));
     }
 }

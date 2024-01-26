@@ -14,7 +14,7 @@ public class InteractInput : MonoBehaviour
     [HideInInspector]
     public InteractableObject hoveringOverObject; // Reference to the InteractableObject the mouse is hovering over
     [HideInInspector]
-    public Character hoveringOverCharacter; // Reference to the Character component of the hovered object
+    public IDamageable attackTarget; // Reference to the Character component of the hovered object
 
     InteractHandler interactHandler;
 
@@ -51,11 +51,6 @@ public class InteractInput : MonoBehaviour
         }
     }
 
-    internal void Interact()
-    {
-        interactHandler.interactedObject = hoveringOverObject;
-    }
-
     internal bool InteractCheck()
     {
         // If an interactable object is being hovered over and the left mouse button is clicked
@@ -73,14 +68,14 @@ public class InteractInput : MonoBehaviour
             // Updates the reference to the currently hovered InteractableObject
             hoveringOverObject = interactableObject;
             // Gets the Character component from the InteractableObject (if it exists)
-            hoveringOverCharacter = interactableObject.GetComponent<Character>();
+            attackTarget = interactableObject.GetComponent<IDamageable>();
             // Updates the UI text to display the name of the hovered object
             textOnScreen.text = hoveringOverObject.objectName;
         }
         else
         {
             // If not hovering over an InteractableObject, reset the references and clear the UI text
-            hoveringOverCharacter = null;
+            attackTarget = null;
             hoveringOverObject = null;
             textOnScreen.text = " ";
         }
@@ -90,20 +85,15 @@ public class InteractInput : MonoBehaviour
     private void UpdateHPBar()
     {
         // Checks if a character is being hovered over
-        if (hoveringOverCharacter != null)
+        if (attackTarget != null)
         {
             // Shows the health bar UI and links it to the life pool of the hovered character
-            hpBar.Show(hoveringOverCharacter.lifePool);
+            //hpBar.Show(attackTarget.lifePool);
         }
         else
         {
             // Clears the health bar UI if not hovering over a character
             hpBar.Clear();
         }
-    }
-
-    internal void ResetState()
-    {
-        interactHandler.ResetState();
     }
 }
