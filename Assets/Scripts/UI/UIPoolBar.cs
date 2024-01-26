@@ -7,14 +7,18 @@ using UnityEngine.UI;
 public class UIPoolBar : MonoBehaviour
 {
     [SerializeField] Image bar; // Reference to the Image component representing the pool bar
+    [SerializeField] TMPro.TextMeshProUGUI textValue;
 
     ValuePool targetPool; // Reference to the ValuePool object associated with this UI pool bar
 
     // Method to show the UI pool bar and link it to a specific ValuePool
     public void Show(ValuePool targetPool)
     {
-        this.targetPool = targetPool; // Assigns the provided ValuePool to the targetPool variable
-        gameObject.SetActive(true); // Activates the UI pool bar
+        if (targetPool != null)
+        {
+            this.targetPool = targetPool; // Assigns the provided ValuePool to the targetPool variable
+            gameObject.SetActive(true); // Activates the UI pool bar
+        }     
     }
 
     // Method to clear the UI pool bar and disconnect it from any ValuePool
@@ -36,5 +40,10 @@ public class UIPoolBar : MonoBehaviour
         // Updates the fill amount of the bar based on the current and maximum values of the associated ValuePool
         bar.fillAmount = Mathf.InverseLerp(0f, targetPool.maxValue.integer_value, targetPool.currentValue);
         // Mathf.InverseLerp maps the current value in the range between 0 and the maximum value to determine the fill amount
+
+        if (textValue != null)
+        {
+            textValue.text = targetPool.currentValue.ToString() + " : " + targetPool.maxValue.integer_value.ToString();
+        }
     }
 }

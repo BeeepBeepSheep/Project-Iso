@@ -88,7 +88,7 @@ public class InteractInput : MonoBehaviour
         if (attackTarget != null)
         {
             // Shows the health bar UI and links it to the life pool of the hovered character
-            //hpBar.Show(attackTarget.lifePool);
+            hpBar.Show(attackTarget.GetLifePool());
         }
         else
         {
