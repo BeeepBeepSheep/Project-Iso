@@ -255,6 +255,12 @@ public class Character : MonoBehaviour, IDamageable
         {
             isDead = true;
             GetComponent<CharacterDefeatHandler>().Defeated();
+
+            AIEnemy aiEnemy = GetComponent<AIEnemy>();
+            if (aiEnemy != null)
+            {
+                aiEnemy.OnEnemyDeath();
+            }
         }
     }
 
