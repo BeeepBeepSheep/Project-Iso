@@ -254,7 +254,12 @@ public class Character : MonoBehaviour, IDamageable
         if (lifePool.currentValue <= 0)
         {
             isDead = true;
-            GetComponent<CharacterDefeatHandler>().Defeated();
+
+            CharacterDefeatHandler defeatHandler = GetComponent<CharacterDefeatHandler>();
+            if (defeatHandler != null)
+            {
+                defeatHandler.Defeated();
+            }
 
             AIEnemy aiEnemy = GetComponent<AIEnemy>();
             if (aiEnemy != null)
@@ -263,6 +268,7 @@ public class Character : MonoBehaviour, IDamageable
             }
         }
     }
+
 
     // Method to get a specific statistic value
     public StatsValue TakeStats(Statistic statisticToGet)

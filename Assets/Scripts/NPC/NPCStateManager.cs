@@ -63,7 +63,7 @@ public class NPCStateManager : MonoBehaviour
     }
     public NPCBaseState RandomState()//returns a random state
     {
-        int index = Random.RandomRange(0, 1);
+        int index = Random.Range(0, 1);
 
         if (index == 0)
         {

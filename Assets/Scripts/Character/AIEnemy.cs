@@ -7,6 +7,10 @@ public class AIEnemy : MonoBehaviour
     AttackHandler attackHandler;
     EnemyDeathCounter deathCounter; // Reference to the death counter script
 
+    // Event for enemy death
+    public delegate void EnemyDeathAction(Vector3 enemyPosition);
+    public static event EnemyDeathAction OnEnemyDeathEvent;
+
     private void Awake()
     {
         attackHandler = GetComponent<AttackHandler>();
@@ -25,6 +29,7 @@ public class AIEnemy : MonoBehaviour
     {
         target = GameManager.instance.playerObject.GetComponent<Character>();
     }
+
     private void Update()
     {
         if (target != null)
@@ -45,6 +50,12 @@ public class AIEnemy : MonoBehaviour
         if (deathCounter != null)
         {
             deathCounter.IncrementDeadEnemyCount();
+
+            // Trigger the enemy death event with the enemy's position
+            if (OnEnemyDeathEvent != null)
+            {
+                OnEnemyDeathEvent(transform.position);
+            }
 
             // Optionally, you can add additional logic here when an enemy dies.
         }

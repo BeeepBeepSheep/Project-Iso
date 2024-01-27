@@ -1,21 +1,24 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class ShowMessageOnCollision : MonoBehaviour
 {
-    public Button messageButton; // Reference to a UI button
+    public TextMeshProUGUI messageText; // Reference to a UI TextMeshPro text
+    public KeyCode teleportKey = KeyCode.E; // Key to trigger teleportation
+    public string[] levelScenes; // Array of level scene names
+    public string essentialScene = "Essential"; // Name of the essential scene
 
     private void Start()
     {
-        // Deactivate the button at the start
-        HideButton();
+        // Deactivate the text at the start
+        HideText();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            ShowButton();
+            ShowText();
         }
     }
 
@@ -23,17 +26,44 @@ public class ShowMessageOnCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            HideButton();
+            HideText();
         }
     }
 
-    private void ShowButton()
+    private void Update()
     {
-        messageButton.gameObject.SetActive(true);
+        if (messageText.gameObject.activeSelf && Input.GetKeyDown(teleportKey))
+        {
+            TeleportPlayer();
+        }
     }
 
-    private void HideButton()
+    private void ShowText()
     {
-        messageButton.gameObject.SetActive(false);
+        messageText.gameObject.SetActive(true);
+    }
+
+    private void HideText()
+    {
+        messageText.gameObject.SetActive(false);
+    }
+
+    private void TeleportPlayer()
+    {
+        if (levelScenes.Length > 0)
+        {
+            // Choose a random level scene from the array
+            string randomLevelScene = levelScenes[Random.Range(0, levelScenes.Length)];
+
+            // Unload the current level scene
+            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+
+            // Load the new random level scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene(randomLevelScene, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        }
+        else
+        {
+            Debug.LogWarning("No level scenes specified for teleportation.");
+        }
     }
 }

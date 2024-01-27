@@ -9398,7 +9398,9 @@ MonoBehaviour:
   messageText: {fileID: 1443894025}
   teleportKey: 101
   levelScenes:
-  - Level 3
+  - TestArea1
+  - TestArea2
+  - LevelDesign2
   essentialScene: Essential
 --- !u!1001 &303295014
 PrefabInstance:
