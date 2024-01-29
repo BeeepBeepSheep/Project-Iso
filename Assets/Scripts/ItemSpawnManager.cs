@@ -15,7 +15,7 @@ public class ItemSpawnManager : MonoBehaviour
 
     [SerializeField] GameObject itemPrefab;
 
-    public void SpawnItem(Vector3 position, ItemData itemToSpawn)
+    public void SpawnItem(Vector3 position, ItemData itemToSpawn, Transform parent = null)
     {
         position += Vector3.up * 20;
 
@@ -26,6 +26,7 @@ public class ItemSpawnManager : MonoBehaviour
         {
             GameObject newItemOnGround = GameObject.Instantiate(itemPrefab, hit.point, Quaternion.identity);
             newItemOnGround.GetComponent<PickUpInteractableObject>().SetItem(itemToSpawn);
+            newItemOnGround.transform.parent = parent;
         }
     }
 }

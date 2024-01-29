@@ -13,8 +13,15 @@ public class PickUpInteractableObject : MonoBehaviour
         GetComponent<InteractableObject>().Subscribe(PickUp);
     }
 
-    public void PickUp(Inventory inventory)
+    public void PickUp(Character character)
     {
+        Inventory inventory = character. GetComponent<Inventory>();
+
+        if (inventory == null)
+        {
+            Debug.LogWarning("To interact with this object, this character needs an Inventory"); return;
+        }
+
         inventory.AddCurrency(coinCount);
 
         if (itemData != null)

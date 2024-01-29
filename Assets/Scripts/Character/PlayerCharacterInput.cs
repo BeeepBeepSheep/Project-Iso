@@ -36,7 +36,7 @@ public class PlayerCharacterInput : MonoBehaviour
     private void LMB_Hold_CommandProcess()
     {
         if (commandHandler.GetCurrentCommandType() == CommandType.Interact) { return; }
-        if (isLMBPressed)
+        if (isLMBPressed && isOverUIElement == false)
         {
             if (attackInput.AttackTargetCheck())
             {
@@ -53,10 +53,9 @@ public class PlayerCharacterInput : MonoBehaviour
 
     public void LMB_InputHandle(InputAction.CallbackContext callbackContext)
     {
+        LMB_Hold(callbackContext);
 
         if (isOverUIElement == true) { return; }
-
-        LMB_Hold(callbackContext);
 
         if (callbackContext.performed || callbackContext.canceled) { return; }
 

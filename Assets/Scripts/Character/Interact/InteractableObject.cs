@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public Action<Inventory> interact;
+    public Action<Character> interact;
     public string objectName;
 
     private void Start()
@@ -13,14 +13,14 @@ public class InteractableObject : MonoBehaviour
         objectName = gameObject.name;
     }
 
-    public void Subscribe(Action<Inventory> action)
+    public void Subscribe(Action<Character> action)
     {
         interact += action;
     }
 
     // Public method called to interact with this object
-    public void Interact(Inventory inventory)
+    public void Interact(Character interactor)
     {
-        interact?.Invoke(inventory);
+        interact?.Invoke(interactor);
     }
 }

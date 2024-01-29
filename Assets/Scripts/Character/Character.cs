@@ -142,6 +142,11 @@ public class AttributeGroup
         attributeValues.Add(new AttributeValue(Attribute.Dexterity));
         attributeValues.Add(new AttributeValue(Attribute.Intelligence));
     }
+
+    public AttributeValue Get(Attribute attributeToShow)
+    {
+        return attributeValues[(int)attributeToShow];
+    }
 }
 
 // Serializable class representing a value pool (like character's health)
@@ -271,7 +276,7 @@ public class Character : MonoBehaviour, IDamageable
 
 
     // Method to get a specific statistic value
-    public StatsValue TakeStats(Statistic statisticToGet)
+    public StatsValue GetStatsValue(Statistic statisticToGet)
     {
         return stats.Get(statisticToGet);
     }
@@ -293,23 +298,28 @@ public class Character : MonoBehaviour, IDamageable
     {
         for(int i = 0; i < statsValues.Count; i++)
         {
-            StatsSubtract(statsValues[i]);
+            SubtractStats(statsValues[i]);
         }
     }
 
-    private void StatsSubtract(StatsValue statsValue)
+    private void SubtractStats(StatsValue statsValue)
     {
         stats.Subtract(statsValue);
     }
 
     public int GetDamage()
     {
-        int damage = TakeStats(Statistic.Damage).integer_value;
+        int damage = GetStatsValue(Statistic.Damage).integer_value;
         return damage;
     }
 
     public ValuePool GetLifePool()
     {
         return lifePool;
+    }
+
+    public AttributeValue GetAttributeValue(Attribute attributeToShow)
+    {
+        return attributes.Get(attributeToShow);
     }
 }

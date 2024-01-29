@@ -16,7 +16,7 @@ MonoBehaviour:
   sizeWidth: 1
   sizeHeight: 1
   stats:
-  - statisticType: 0
+  - statisticType: 1
     typeFloat: 0
     integer_value: 25
     float_value: 0

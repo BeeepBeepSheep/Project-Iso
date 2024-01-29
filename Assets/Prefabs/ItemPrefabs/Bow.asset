@@ -16,8 +16,8 @@ MonoBehaviour:
   sizeWidth: 3
   sizeHeight: 2
   stats:
-  - statisticType: 1
+  - statisticType: 2
     typeFloat: 0
-    integer_value: 100
+    integer_value: 50
     float_value: 0
   icon: {fileID: 21300000, guid: a856c8b8d47e2ac448418ba5ae6f26c8, type: 3}

@@ -8,12 +8,12 @@ public class InteractHandler : MonoBehaviour, ICommandHandle
     [SerializeField] float interactRange = 1f;
 
     CharacterMovement characterMovement;
-    Inventory inventory;
+    Character character;
 
     private void Awake()
     {
         characterMovement = GetComponent<CharacterMovement>();
-        inventory = GetComponent<Inventory>();
+        character = GetComponent<Character>();
     }
 
     public void ProcessCommand(Command command)
@@ -22,7 +22,7 @@ public class InteractHandler : MonoBehaviour, ICommandHandle
 
         if (distance < interactRange)
         {
-            command.target.GetComponent<InteractableObject>().Interact(inventory);
+            command.target.GetComponent<InteractableObject>().Interact(character);
             characterMovement.Stop();
             command.isComplete = true;
         }

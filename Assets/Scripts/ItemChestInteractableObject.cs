@@ -18,14 +18,14 @@ public class ItemChestInteractableObject : MonoBehaviour
         GetComponent<InteractableObject>().Subscribe(OpenChest);
     }
 
-    public void OpenChest(Inventory inventory)
+    public void OpenChest(Character character)
     {
         if (isOpened == true) { return; }
 
         GetComponent<Collider>().enabled = false;
         isOpened = true;
         animator.SetBool("Open", true);
-        ItemSpawnManager.instance.SpawnItem(SelecteRandomPosition(), dropList.GetDrop());
+        ItemSpawnManager.instance.SpawnItem(SelecteRandomPosition(), dropList.GetDrop(), transform);
     }
 
     private Vector3 SelecteRandomPosition()
